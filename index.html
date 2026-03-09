@@ -323,7 +323,7 @@ function obtenerPaquete() {
   // Bloquear inmediatamente para evitar doble clic
   btnGuardar.disabled = true;
 
-  const usuario = usuarioInput.value.trim().toLowerCase();
+  const usuario = usuarioInput.value.trim();
 
   db.collection("usuarios")
     .where("usuario", "==", usuario)
@@ -540,4 +540,5 @@ e.preventDefault();
 });
 </script>
 </body>
+
 </html>
