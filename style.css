@@ -1,0 +1,845 @@
+/* ================= RESET GENERAL ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ================= INDEX / HERO ================= */
+.hero {
+  height: 100vh;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url("img/fondo7.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.contenido {
+  max-width: 800px;
+  padding: 20px;
+}
+
+.contenido h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.contenido p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: #dddddd;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn {
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.principal {
+  background: linear-gradient(45deg, #7f00ff, #00c6ff);
+  color: white;
+}
+
+.secundario {
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* ================= MENÚ ================= */
+.menu-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.menu-btn {
+  font-size: 28px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menu-flotante {
+  display: none;
+  background: rgba(20,20,40,0.95);
+  color: white;
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 10px;
+  width: 180px;
+}
+
+.menu-flotante.mostrar {
+  display: block;
+}
+
+.menu-flotante h3 {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #555;
+  padding-bottom: 5px;
+}
+
+.menu-flotante ul {
+  list-style: none;
+}
+
+.menu-flotante li {
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.menu-flotante li:hover {
+  color: #00c6ff;
+}
+
+/* ================= REGISTRO / LOGIN ================= */
+.registro {
+  background: linear-gradient(180deg, #050510, #0b0b25);
+  color: white;
+  padding: 80px 20px;
+  text-align: center;
+  display: none;
+}
+
+.registro.visible {
+  display: block;
+}
+
+.formulario {
+  max-width: 500px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formulario input {
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+.formulario input:focus {
+  outline: none;
+  box-shadow: 0 0 8px #00c6ff;
+}
+
+#btnGuardar {
+  padding: 15px;
+  border-radius: 25px;
+  background: linear-gradient(45deg, #7f00ff, #00c6ff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#btnGuardar:disabled {
+  background: gray;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.login-page .hero {
+  min-height: 55vh;
+}
+
+/* ================= PERFIL & ADMIN (AISLADO) ================= */
+body.perfil-page,
+body.admin-page {
+  background: #0b0b1f;
+  color: white;
+}
+
+/* HEADER GLASS */
+body.perfil-page .perfil-header,
+body.admin-page .perfil-header {
+  background-image:
+    linear-gradient(rgba(10,10,30,0.8), rgba(10,10,30,0.8)),
+    url("img/fondo.jpg");
+  background-size: cover;
+  padding: 40px 0;
+}
+
+body.perfil-page .perfil-contenedor,
+body.admin-page .perfil-contenedor {
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+}
+
+/* PERFIL HEADER PARTES */
+.perfil-izq h2 {
+  font-size: 26px;
+}
+
+.perfil-izq .correo {
+  opacity: 0.85;
+  font-size: 14px;
+}
+
+.wallet-box {
+  margin: auto;
+  background: rgba(255,255,255,0.15);
+  padding: 16px 22px;
+  border-radius: 14px;
+}
+
+.perfil-der {
+  margin-left: auto;
+  text-align: right;
+}
+
+.perfil-der button {
+  background: linear-gradient(135deg, #7f00ff, #00c6ff);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ================= PERFIL MAIN ================= */
+body.perfil-page .perfil-main,
+body.admin-page .perfil-main {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* CARD GLASS */
+body.perfil-page .card,
+body.admin-page .card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 25px;
+}
+
+/* SALDO */
+.saldo {
+  font-size: 34px;
+  color: #00c6ff;
+  font-weight: bold;
+}
+
+/* BOTÓN ACCIÓN */
+.btn-accion {
+  margin-top: 15px;
+  background: linear-gradient(135deg, #7f00ff, #00c6ff);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* HISTORIAL*/
+.historial {
+  list-style: none;
+}
+
+.historial li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.deposito { color: #4caf50; }
+
+/* PAQUETES */
+body.perfil-page .paquetes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.paquete {
+  background: rgba(255,255,255,0.15);
+  padding: 15px;
+  border-radius: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.paquete:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.25);
+}
+
+/* ================= ADMIN TABLE ================= */
+.tabla-admin {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-admin th {
+  background: rgba(0,198,255,0.2);
+  padding: 10px;
+  text-align: left;
+}
+
+.tabla-admin td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.tabla-admin button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tabla-admin button:first-child {
+  background: #4caf50;
+  color: white;
+}
+
+.tabla-admin .cancelar {
+  background: #ff4d4d;
+  color: white;
+}
+
+/* ================= MODAL ================= */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-contenido {
+  background: rgba(20,20,40,0.95);
+  padding: 30px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+}
+
+.modal-contenido input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+}
+
+.modal-botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+/* ===== FIX LOGIN ESPACIADO ===== */
+.login-page .hero {
+  min-height: 22vh;   /* antes 55vh */
+  padding-bottom: 0;
+}
+
+.login-page .registro {
+  margin-top: 00px;
+  padding-top: 20px; /* reduce separación */
+}
+
+.login-page .formulario {
+  margin-top: -300px;
+}
+.acciones-saldo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-retiro {
+  margin-top: 15px;
+  background: linear-gradient(135deg, #7f00ff, #00c6ff);
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+}
+/* ===== MODALES GENERALES DE INFORMACION ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-contenido {
+  background: #fff;
+  width: 90%;
+  max-width: 850px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.3);
+  animation: aparecer .25s ease;
+}
+
+@keyframes aparecer {
+  from { transform: scale(.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+#modalQuienesSomos h2 {
+  margin: 0;
+  font-size: 26px;
+}
+
+#modalQuienesSomos .modal-subtitle {
+  display: block;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+#modalQuienesSomos h4 {
+  margin-top: 25px;
+  color: #222;
+}
+
+#modalQuienesSomos ul {
+  padding-left: 20px;
+}
+
+#modalQuienesSomos li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+#modalCodigoEtica h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#modalCodigoEtica h4 {
+  margin-top: 20px;
+  color: #111;
+}
+
+#modalCodigoEtica p,
+#modalCodigoEtica li {
+  line-height: 1.6;
+  color: #333;
+}
+
+#modalCodigoEtica ul {
+  padding-left: 20px;
+}
+.modal-footer,
+.modal-botones {
+  margin-top: 30px;
+  text-align: right;
+}
+
+.btn-cerrar,
+.cancelar {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-cerrar:hover,
+.cancelar:hover {
+  background: #000;
+}
+
+/* ================= PAQUETES DE INVERSIÓN ================= */
+
+.paquetes {
+  padding: 80px 20px;
+  background: radial-gradient(circle at top, #1b0f3b, #060014);
+  text-align: center;
+}
+
+.titulo-paquetes {
+  color: #ffffff;
+  font-size: 36px;
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+}
+
+.paquetes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.paquete-card {
+  background: linear-gradient(180deg, #2b145f, #12052b);
+  border-radius: 22px;
+  padding: 35px 25px;
+  color: #ffffff;
+  box-shadow: 0 0 30px rgba(138, 43, 226, 0.45);
+  transition: transform 0.3s ease;
+}
+
+.paquete-card:hover {
+  transform: translateY(-8px);
+}
+
+.paquete-card h3 {
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.precio {
+  font-size: 54px;
+  font-weight: bold;
+  margin: 25px 0;
+}
+
+.precio span {
+  font-size: 18px;
+  vertical-align: super;
+  margin-left: 5px;
+}
+
+.beneficios {
+  list-style: none;
+  padding: 0;
+  margin: 30px 0;
+  text-align: left;
+}
+
+.beneficios li {
+  margin: 14px 0;
+  position: relative;
+  padding-left: 28px;
+  font-size: 16px;
+}
+
+.beneficios li::before {
+  content: "✔";
+  color: #00e676;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.btn-obtener {
+  background: linear-gradient(90deg, #6a5cff, #8e2de2);
+  border: none;
+  padding: 15px 35px;
+  border-radius: 35px;
+  color: #ffffff;
+  font-size: 18px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: opacity 0.3s ease;
+}
+
+.btn-obtener:hover {
+  opacity: 0.9;
+}
+/* MODAL PAQUETES */
+.modal-paquetes {
+  max-width: 1200px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-paquetes .paquetes-grid {
+  margin-top: 30px;
+}
+
+/* ===== FIX GRID PAQUETES PERFIL ===== */
+body:not(.perfil-page) .paquetes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+/* TARJETA INDIVIDUAL */
+.paquete-card {
+  width: 100% !important;
+  max-width: none !important;
+  display: flex;
+  flex-direction: column;
+}
+
+/* MODAL TUTORIALES */
+
+.modal-tutoriales{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.modal-contenido-tutorial{
+
+background:linear-gradient(135deg,#0a0f2c,#111a40);
+padding:40px;
+border-radius:15px;
+width:85%;
+max-width:1000px;
+color:white;
+text-align:center;
+box-shadow:0 0 25px rgba(0,150,255,0.4);
+
+}
+
+.modal-contenido-tutorial h2{
+margin-bottom:5px;
+}
+
+.subtitulo{
+opacity:0.8;
+margin-bottom:25px;
+}
+
+.grid-videos{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+
+}
+
+.video-card{
+
+background:#0f1a3a;
+padding:15px;
+border-radius:10px;
+transition:0.3s;
+
+}
+
+.video-card:hover{
+
+transform:scale(1.03);
+box-shadow:0 0 15px rgba(0,180,255,0.5);
+
+}
+
+.video-card video{
+
+width:100%;
+border-radius:8px;
+
+}
+
+.cerrar{
+
+position:absolute;
+right:25px;
+top:15px;
+font-size:30px;
+cursor:pointer;
+color:white;
+
+}
+/* Historial de movimientos con scroll */
+#historialMovimientos {
+    max-height: 300px;   /* altura aproximada para 5 movimientos */
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Estilo del scroll (opcional, se ve más profesional) */
+#historialMovimientos::-webkit-scrollbar {
+    width: 6px;
+}
+
+#historialMovimientos::-webkit-scrollbar-thumb {
+    background: #00d4ff;
+    border-radius: 10px;
+}
+/* ===== MODALES ORIGINALES PERFIL (DEPOSITO / RETIRO) ===== */
+
+.modal-perfil {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-perfil .modal-contenido {
+  background: rgba(20,20,40,0.95);
+  padding: 30px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+}
+
+.modal-perfil h3{
+  margin-bottom:15px;
+}
+
+.modal-perfil input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+  border:none;
+}
+
+.modal-perfil .info{
+  font-size:13px;
+  opacity:0.8;
+  margin-top:5px;
+}
+
+.modal-perfil .modal-botones{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.modal-perfil button{
+  padding:10px 16px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.modal-perfil #btnEnviarDeposito,
+.modal-perfil #btnEnviarRetiro{
+  background: linear-gradient(135deg,#7f00ff,#00c6ff);
+  color:white;
+}
+
+.modal-perfil .cancelar{
+  background:#ff4d4d;
+  color:white;
+}
+.imagen-promocional{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.imagen-promocional img{
+  width:100%;
+  height:auto;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+
+/* ===== PARA MOVILES ===== */
+
+@media (max-width:768px){
+
+.modal-contenido{
+width:90%;
+max-height:85vh;
+overflow-y:auto;
+}
+
+.modal-paquetes{
+width:95%;
+}
+
+.hero h1{
+font-size:28px;
+}
+
+.botones{
+flex-direction:column;
+gap:10px;
+}
+
+.btn{
+width:100%;
+}
+
+}
+@media (max-width:768px){
+
+.perfil-contenedor{
+flex-direction:column;
+text-align:center;
+gap:15px;
+}
+
+.wallet-box{
+width:100%;
+}
+
+.perfil-der{
+text-align:center;
+}
+
+.acciones-saldo{
+flex-direction:column;
+}
+
+.btn-accion{
+width:100%;
+}
+
+.historial-card{
+max-height:300px;
+overflow-y:auto;
+}
+
+}

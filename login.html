@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+
+  <header class="hero">
+    <div class="contenido">
+      <h1>Iniciar Sesión</h1>
+    </div>
+  </header>
+  <section class="registro visible">
+      <form class="formulario" id="formLogin">
+      <input type="text" id="loginUsuario" placeholder="Usuario" required>
+      <input type="password" id="loginPassword" placeholder="Contraseña" required>
+
+      <p id="mensajeLogin"></p>
+
+      <button type="submit" class="btn principal">Acceder</button>
+    </form>
+  </section>
+
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+  <script>
+    const formLogin = document.getElementById("formLogin");
+    const mensajeLogin = document.getElementById("mensajeLogin");
+
+    formLogin.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const usuario = document.getElementById("loginUsuario").value;
+      const password = document.getElementById("loginPassword").value;
+
+      db.collection("usuarios")
+        .where("usuario", "==", usuario)
+        .where("password", "==", password)
+        .get()
+        .then((querySnapshot) => {
+  if (querySnapshot.empty) {
+    mensajeLogin.textContent = "Usuario o contraseña incorrectos";
+    mensajeLogin.style.color = "red";
+    return;
+  }
+
+  const userData = querySnapshot.docs[0].data();
+
+  // Guardar usuario en sesión
+  localStorage.setItem("usuarioLogueado", userData.usuario);
+
+  // 🔐 Redirección según rol
+  if (userData.rol === "admin") {
+    localStorage.setItem("sesionActiva", "true");
+    window.location.href = "admin.html";
+  } else {
+    window.location.href = "perfil.html";
+  }
+});
+    });
+  </script>
+<script>
+document.addEventListener("contextmenu", function(e){
+e.preventDefault();
+});
+</script>
+</body>
+</html>

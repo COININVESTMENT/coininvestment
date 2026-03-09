@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inicio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- BOTÓN MENÚ -->
+  <div class="menu-container">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <div class="menu-flotante" id="menu">
+      <h3>INFORMACION</h3>
+      <ul>
+      <li onclick="abrirQuienesSomos()">Marco Institucional</li>
+      <li onclick="abrirCodigoEtica()">Codigo de Etica CI</li>    
+      <li onclick="abrirPaquetes()">Paquetes de Inversion</li> 
+      <!-- <li onclick="abrirTutoriales()">Instrúyete aquí</li>-->   
+      </ul>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="contenido">
+      <h1>COIN INVESTMENT</h1>
+      <p>
+        ESTRATEGIA, CRECIMIENTO Y CONFIANZA.
+      </p>
+
+      <div class="botones">
+       <button class="btn principal" onclick="mostrarFormulario()">Registrate
+        </button>
+        <a href="login.html" class="btn secundario">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- SCRIPT -->
+  <script>
+  const menu = document.getElementById("menu");
+  const menuBtn = document.querySelector(".menu-btn");
+
+  function toggleMenu() {
+    menu.classList.toggle("mostrar");
+  }
+
+  // Cerrar menú al hacer clic fuera
+  document.addEventListener("click", function (event) {
+    if (
+      !menu.contains(event.target) &&
+      !menuBtn.contains(event.target)
+    ) {
+      menu.classList.remove("mostrar");
+    }
+  });
+</script>
+<script>
+  function mostrarFormulario() {
+    const seccion = document.getElementById("registro");
+    seccion.classList.add("visible");
+    seccion.scrollIntoView({ behavior: "smooth" });
+  }
+</script>
+<script>
+function abrirQuienesSomos() {
+  document.getElementById("modalQuienesSomos").style.display = "flex";
+  document.getElementById("menu").classList.remove("mostrar");
+}
+function cerrarQuienesSomos() {
+  document.getElementById("modalQuienesSomos").style.display = "none";
+}
+</script>
+<script>
+function abrirCodigoEtica() {
+  document.getElementById("modalCodigoEtica").style.display = "flex";
+  document.getElementById("menu").classList.remove("mostrar");
+}
+function cerrarCodigoEtica() {
+  document.getElementById("modalCodigoEtica").style.display = "none";
+}
+</script>
+<script>
+function abrirPaquetes() {
+  document.getElementById("modalPaquetes").style.display = "flex";
+  document.getElementById("menu").classList.remove("mostrar"); // cerrar menú
+}
+
+function cerrarPaquetes() {
+  document.getElementById("modalPaquetes").style.display = "none";
+}
+function abrirTutoriales(){
+  document.getElementById("modalTutoriales").style.display="flex";
+  document.getElementById("menu").classList.remove("mostrar"); // cerrar menú
+
+}
+
+function cerrarTutoriales(){
+  document.getElementById("modalTutoriales").style.display="none";
+}
+</script>
+
+
+
+
+
+<!-- MODAL PAQUETES DE INVERSIÓN -->
+<div class="modal" id="modalPaquetes">
+  <div class="modal-contenido modal-paquetes">
+
+    <div class="modal-header">
+      <h2>PAQUETES DE INVERSION</h2>
+      <span class="modal-subtitle"><h2>COIN INVESTMENT</h2></span>
+    </div>
+
+    <div class="paquetes-grid">
+
+      <!-- PAQUETE 25 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$25 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 10%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 21 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+      <!-- PAQUETE 50 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$50 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 12%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 25 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+      <!-- PAQUETE 100 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$100 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 15%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 30 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+      <!-- PAQUETE 250 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$250 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 18%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 45 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+      <!-- PAQUETE 300 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$300 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 18%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 45 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+      <!-- PAQUETE 400 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$400 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 18%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 45 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+      <!-- PAQUETE 500 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$500 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 18%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 45 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+       <!-- PAQUETE 700 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$700 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 18%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 45 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+       <!-- PAQUETE 1000 -->
+      <div class="paquete-card">
+        <h3>COIN INVESTMENT</h3>
+        <div class="precio">$1000 <span>USD</span></div>
+        <ul class="beneficios">
+          <li>Rendimiento Diario 18%</li>
+          <li>Bono por Referido 10%</li>
+          <li>Duración 45 días</li>
+        </ul>
+        <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cerrar" onclick="cerrarPaquetes()">Cerrar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= SCRIPT PAQUETES ================= -->
+<script>
+function obtenerPaquete() {
+  const usuario = localStorage.getItem("usuarioLogueado");
+
+  if (!usuario) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  alert("Próximo paso: activación del paquete");
+}
+</script>
+
+
+
+
+
+
+
+<section class="registro" id="registro">
+  <h2>Comienza tu registro</h2>
+  <form class="formulario" id="formRegistro">
+  <input type="text" id="nombres" placeholder="Nombres" required>
+<input type="text" id="apellidos" placeholder="Apellidos" required>
+<input type="tel" id="telefono" placeholder="Teléfono" required>
+<input type="email" id="correo" placeholder="Correo" required>
+<input type="text" id="wallet" placeholder="ID Binance" required>
+<input type="text" id="usuario" placeholder="Usuario" required>
+<p id="mensajeUsuario"></p>
+<input type="password" id="password" placeholder="Contraseña" required>
+<input type="password" id="repetirPassword" placeholder="Repetir contraseña" required>
+  <p id="mensajePassword"></p>
+  <input type="date" id="fechaNacimiento" required>
+  <p id="mensajeEdad"></p>
+  <input type="text" id="referidoPor" placeholder="Usuario referidor (opcional)">
+
+
+  <!-- BOTÓN GUARDAR -->
+  <button type="submit" id="btnGuardar" disabled>
+    Guardar
+  </button>
+  <p id="mensajeExito"></p>
+</form>
+</section>
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="js/firebase.js"></script>
+<script>
+  const fechaNacimiento = document.getElementById("fechaNacimiento");
+  const mensajeEdad = document.getElementById("mensajeEdad");
+  const mensajeExito = document.getElementById("mensajeExito");
+  const btnGuardar = document.getElementById("btnGuardar");
+  const formRegistro = document.getElementById("formRegistro");
+  const usuarioInput = document.getElementById("usuario");
+  const mensajeUsuario = document.getElementById("mensajeUsuario");
+  fechaNacimiento.addEventListener("change", function () {
+    const fechaSeleccionada = new Date(this.value);
+    const fechaActual = new Date();
+
+    let edad = fechaActual.getFullYear() - fechaSeleccionada.getFullYear();
+    const mes = fechaActual.getMonth() - fechaSeleccionada.getMonth();
+
+    if (
+      mes < 0 ||
+      (mes === 0 && fechaActual.getDate() < fechaSeleccionada.getDate())
+    ) {
+      edad--;
+    }
+
+    if (edad < 18) {
+      mensajeEdad.textContent =
+        "Registro restringido para personas menores de 18 años de edad";
+      btnGuardar.disabled = true;
+      mensajeExito.textContent = "";
+    } else {
+      mensajeEdad.textContent = "";
+      btnGuardar.disabled = false;
+    }
+  });
+
+ formRegistro.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  // Bloquear inmediatamente para evitar doble clic
+  btnGuardar.disabled = true;
+
+  const usuario = usuarioInput.value.trim().toLowerCase();
+
+  db.collection("usuarios")
+    .where("usuario", "==", usuario)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        mensajeUsuario.textContent = "El usuario ya se encuentra registrado";
+        btnGuardar.disabled = false;
+        return;
+      }
+
+      // GUARDAR SI NO EXISTE
+     return db.collection("usuarios").add({
+      nombres: document.getElementById("nombres").value,
+      apellidos: document.getElementById("apellidos").value,
+      telefono: document.getElementById("telefono").value,
+      correo: document.getElementById("correo").value,
+      wallet: document.getElementById("wallet").value,
+      usuario: usuario,
+      password: document.getElementById("password").value,
+      fechaNacimiento: document.getElementById("fechaNacimiento").value,
+      fechaRegistro: new Date(),
+      referidoPor: document.getElementById("referidoPor").value.trim() || null
+    });
+    })
+    .then((resultado) => {
+      if (!resultado) return;
+
+      mensajeExito.textContent = "Sus datos fueron guardados con éxito";
+
+      setTimeout(() => {
+        formRegistro.reset();
+        document.getElementById("registro").classList.remove("visible");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        mensajeExito.textContent = "";
+      }, 2000);
+    })
+    .catch((error) => {
+      alert("Error al guardar: " + error);
+      btnGuardar.disabled = false;
+    });
+});
+  ;
+ 
+  const password = document.getElementById("password");
+  const repetirPassword = document.getElementById("repetirPassword");
+  const mensajePassword = document.getElementById("mensajePassword");
+  function validarPasswords() {
+    if (password.value !== repetirPassword.value) {
+      mensajePassword.textContent = "Las contraseñas no coinciden";
+      btnGuardar.disabled = true;
+    } else {
+      mensajePassword.textContent = "";
+    }
+  }
+
+  password.addEventListener("input", validarPasswords);
+  repetirPassword.addEventListener("input", validarPasswords);
+</script>
+<!-- MODAL MARCO INSTITUCIONAL -->
+<div class="modal" id="modalQuienesSomos">
+  <div class="modal-contenido">
+    <div class="modal-header">
+       <span class="modal-subtitle"><h2>COIN INVESTMENT</h2></span>
+    </div>
+
+    <div class="modal-body">
+
+      <p>
+        Los planes de inversión de <strong>COIN INVESTMENT</strong> han sido diseñados
+        para ofrecer alternativas financieras estructuradas dentro del mercado de
+        las criptomonedas, orientadas a la generación de rendimientos diarios bajo
+        un enfoque responsable y profesional.
+      </p>
+
+      <p>
+        Cada plan responde a distintos perfiles de inversionista, considerando capital,
+        nivel de riesgo y horizonte de inversión, gestionados mediante análisis del
+        mercado digital, diversificación de activos y control interno del riesgo.
+      </p>
+
+      <h4>Características Institucionales</h4>
+      <ul>
+        <li>Exclusivo para mayores de 18 años.</li>
+        <li>Activación bajo políticas internas de gestión de riesgo.</li>
+        <li>Rendimientos diarios según comportamiento del mercado.</li>
+        <li>Capital administrado por expertos en criptomonedas.</li>
+        <li>Información clara y periódica.</li>
+      </ul>
+
+      <h4>Tipos de Planes</h4>
+      <ul>
+        <li><strong>Básicos:</strong> entrada accesible y enfoque conservador.</li>
+        <li><strong>Intermedios:</strong> mayor rendimiento mediante diversificación.</li>
+        <li><strong>Avanzados:</strong> estrategias especializadas y mayor tolerancia al riesgo.</li>
+      </ul>
+
+      <h4>Gestión y Responsabilidad</h4>
+      <p>
+        COIN INVESTMENT mantiene un seguimiento constante del mercado y promueve la
+        educación financiera, recordando que toda inversión conlleva riesgos.
+      </p>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cerrar" onclick="cerrarQuienesSomos()">Cerrar</button>
+    </div>
+  </div>
+</div>
+<!-- MODAL CÓDIGO DE ÉTICA -->
+<div class="modal" id="modalCodigoEtica">
+  <div class="modal-contenido">
+    <h3>COIN INVESTMENT</h3>
+
+    <h4>1. Disposiciones Generales</h4>
+    <p>
+      El presente Código de Ética establece los principios, valores y normas de
+      conducta que rigen el comportamiento de todos los miembros que integran
+      COIN INVESTMENT, incluyendo directivos, personal operativo y colaboradores
+      vinculados a la gestión de inversiones.
+    </p>
+
+    <h4>2. Principios Éticos Fundamentales</h4>
+    <ul>
+      <li><strong>Integridad:</strong> Actuar con honestidad y coherencia en todas las operaciones.</li>
+      <li><strong>Transparencia:</strong> Proporcionar información clara, veraz y oportuna a los inversionistas.</li>
+      <li><strong>Responsabilidad:</strong> Administrar el capital de manera ética y consciente.</li>
+      <li><strong>Confidencialidad:</strong> Proteger la información financiera y personal de los inversionistas.</li>
+      <li><strong>Profesionalismo:</strong> Tomar decisiones basadas en análisis técnico, experiencia y criterio financiero.</li>
+    </ul>
+
+    <h4>3. Conducta Profesional</h4>
+    <p>
+      Todo el personal deberá desempeñar sus funciones con diligencia, respeto y
+      compromiso, evitando conflictos de interés y prácticas que puedan afectar
+      la reputación o estabilidad de la empresa.
+    </p>
+
+    <h4>4. Relación con los Inversionistas</h4>
+    <p>
+      COIN INVESTMENT mantiene relaciones basadas en la confianza, el respeto
+      mutuo y la comunicación clara, evitando promesas engañosas o garantías no
+      sustentadas en la realidad del mercado financiero digital.
+    </p>
+
+    <h4>5. Uso Responsable de la Información</h4>
+    <p>
+      La información interna y estratégica de la empresa será utilizada
+      exclusivamente para fines laborales y bajo estrictos criterios de
+      confidencialidad.
+    </p>
+
+    <h4>6. Cumplimiento del Código</h4>
+    <p>
+      El incumplimiento de este Código de Ética será evaluado conforme a los
+      procedimientos internos de la empresa y podrá dar lugar a medidas
+      correctivas.
+    </p>
+
+    <div class="modal-botones">
+      <button class="cancelar" onclick="cerrarCodigoEtica()">Cerrar</button>
+    </div>
+  </div>
+</div>
+<!-- MODAL TUTORIALES -->
+<div id="modalTutoriales" class="modal-tutoriales">
+
+  <div class="modal-contenido-tutorial">
+
+    <span class="cerrar" onclick="cerrarTutoriales()">&times;</span>
+
+  <h2>Instrúyete aquí</h2>
+    <p class="subtitulo">Videos rápidos para aprender a usar la plataforma</p>
+
+    <div class="grid-videos">
+
+      <div class="video-card">
+        <h3>Cómo registrarse</h3>
+        <video controls>
+          <source src="videos/registro.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="video-card">
+        <h3>Cómo activar un paquete</h3>
+        <video controls>
+          <source src="videos/activar-paquete.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="video-card">
+        <h3>Cómo realizar un depósito</h3>
+        <video controls>
+          <source src="videos/deposito.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="video-card">
+        <h3>Cómo retirar ganancias</h3>
+        <video controls>
+          <source src="videos/retiro.mp4" type="video/mp4">
+        </video>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script>
+document.addEventListener("contextmenu", function(e){
+e.preventDefault();
+});
+</script>
+</body>
+</html>

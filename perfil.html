@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Perfil</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="perfil-page">
+
+  <!-- HEADER PERFIL -->
+  <header class="perfil-header">
+    <div class="perfil-contenedor">
+
+      <div class="perfil-izq">
+        <h2 id="p_nombres"></h2>
+        <p class="correo" id="p_correo"></p>
+      </div>
+
+      <div class="wallet-box">
+        <p><strong>Wallet:</strong> <span id="p_wallet"></span></p>
+        <p><strong>Teléfono:</strong> <span id="p_telefono"></span></p>
+      </div>
+
+      <div class="perfil-der">
+        <p class="usuario"><span id="p_usuario"></span></p>
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- CONTENIDO PERFIL -->
+  <main class="perfil-main">
+
+    <!-- SALDO -->
+    <section class="card saldo-card">
+  <h3>Saldo Disponible</h3>
+  <p class="saldo">$ <span id="saldo">0.00</span></p>
+
+  <div class="acciones-saldo">
+    <button class="btn-accion" onclick="abrirDeposito()">Agregar saldo</button>
+    <button class="btn-accion retirar" onclick="abrirRetiro()">Retirar</button>
+  </div>
+</section>
+
+    <!-- HISTORIAL -->
+    <section class="card historial-card">
+      <h3>Historial de Movimientos</h3>
+      <ul class="historial" id="historialMovimientos">
+        <li class="info">Sin movimientos aún</li>
+      </ul>
+    </section>
+
+    <!-- PAQUETES ACTIVOS -->
+    <section class="card paquetes-activos">
+      <h3>Paquetes Activados</h3>
+      <div id="paquetesActivos">
+        <p class="info">No tienes paquetes activos</p>
+      </div>
+    </section>
+    <!-- REFERIDOS -->
+<section class="card referidos-card">
+  <h3>Mis Referidos</h3>
+
+  <ul id="listaReferidos" class="lista-referidos">
+    <li class="info">No tienes referidos aún</li>
+  </ul>
+</section>
+
+    <!-- PAQUETES DISPONIBLES -->
+    <section class="card paquetes-disponibles">
+      <h3>Paquetes de Inversion</h3>
+      <div class="paquetes-grid">
+        <div class="paquete">$25</div>
+        <div class="paquete">$50</div>
+        <div class="paquete">$100</div>
+        <div class="paquete">$150</div>
+        <div class="paquete">$200</div>
+        <div class="paquete">$250</div>
+        <div class="paquete">$300</div>
+        <div class="paquete">$400</div>
+        <div class="paquete">$500</div>
+        <div class="paquete">$700</div>
+        <div class="paquete">$1000</div>
+      </div>
+    </section>
+<!-- BINANCE ID -->
+<div class="card imagen-promocional">
+  <img src="img/ID-BINANCE.jpg" alt="Promoción">
+</div>
+
+
+  </main>
+
+  <!-- MODAL DEPÓSITO -->
+  <div class="modal modal-perfil" id="modalDeposito">
+    <div class="modal-contenido">
+      <h3>Reportar Depósito</h3>
+      <input type="number" id="depositoMonto" placeholder="Monto enviado">
+      <input type="text" id="depositoTxid" placeholder="BINANCE ID DE LA ORDEN ">
+
+      <p class="info">
+        Transfiere a la wallet oficial y reporta el ID de la orden.
+        Tu saldo será acreditado tras verificación.
+      </p>
+
+      <div class="modal-botones">
+        <button id="btnEnviarDeposito" onclick="enviarDeposito()">Enviar</button>
+        <button class="cancelar" onclick="cerrarDeposito()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+<!-- MODAL RETIRO -->
+<div class="modal modal-perfil" id="modalRetiro">
+  <div class="modal-contenido">
+    <h3>Solicitar Retiro</h3>
+
+    <input 
+      type="number" 
+      id="retiroMonto" 
+      placeholder="Ingresa el monto a retirar"
+      min="1"
+    >
+
+    <p class="info">
+      El retiro será enviado a tu wallet registrada tras verificación.
+    </p>
+
+    <div class="modal-botones">
+      <button id="btnEnviarRetiro" onclick="enviarRetiro()">Solicitar</button>
+      <button class="cancelar" onclick="cerrarRetiro()">Cancelar</button>
+    </div>
+  </div>
+</div>
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCtToXsyI1gbBn7JytIq1vy8vBR1UgReEQ",
+      authDomain: "coin-investment-15e18.firebaseapp.com",
+      projectId: "coin-investment-15e18",
+      storageBucket: "coin-investment-15e18.firebasestorage.app",
+      messagingSenderId: "145147689452",
+      appId: "1:145147689452:web:569ab6c1b1e1045659a8c9"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+   const usuarioLogueado = localStorage.getItem("usuarioLogueado");
+    if (!usuarioLogueado){
+       window.location.href = "index.html";
+      }
+    
+    let saldoActual = 0;
+    let totalDepositos = 0;
+    let totalPaquetes = 0;
+    let totalGanancias = 0;
+    let totalRetiros = 0;
+    let walletUsuario = 0;
+    const MONTO_MINIMO_RETIRO = 10;
+
+    /* ================= DATOS PERFIL ================= */
+    db.collection("usuarios")
+      .where("usuario", "==", usuarioLogueado)
+      .get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          p_nombres.textContent = d.nombres + " " + d.apellidos;
+          p_correo.textContent = d.correo;
+          p_wallet.textContent = d.wallet;
+          walletUsuario = d.wallet;
+          p_telefono.textContent = d.telefono;
+          p_usuario.textContent = d.usuario;
+        });
+      });
+
+    /* ================= DEPÓSITOS APROBADOS ================= */
+    db.collection("depositos")
+      .where("usuario", "==", usuarioLogueado)
+      .where("estado", "==", "aprobado")
+      .onSnapshot(snapshot => {
+        totalDepositos = 0;
+        historialMovimientos.innerHTML = "";
+        window._historialCargado=false;
+
+        if (snapshot.empty) {
+          historialMovimientos.innerHTML = "<li class='info'>Sin movimientos aún</li>";
+        }
+
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          totalDepositos += Number(d.monto);
+          const li = document.createElement("li");
+          li.className = "deposito";
+          //li.innerHTML = `Depósito <span>+$${d.monto}</span>`;
+          historialMovimientos.appendChild(li);
+        });
+
+        calcularSaldo();
+      });
+      /* ================= GANANCIAS ================= */
+db.collection("movimientos")
+  .where("usuario", "==", usuarioLogueado)
+  .where("tipo", "in", ["ganancia", "bono_referido"])
+  .onSnapshot(snapshot => {
+    totalGanancias = 0;
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      totalGanancias += Number(d.monto);
+    });
+
+    calcularSaldo();
+  });
+  /* ================= RETIROS ================= */
+db.collection("retiros")
+  .where("usuario", "==", usuarioLogueado)
+  .where("estado", "in", ["pendiente", "aprobado"])
+  .onSnapshot(snapshot => {
+    totalRetiros = 0;
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      totalRetiros += Number(d.monto);
+    });
+
+    calcularSaldo();
+  });
+    /* ================= PAQUETES ACTIVOS ================= */
+    db.collection("paquetes_activos")
+      .where("usuario", "==", usuarioLogueado)
+      .onSnapshot(snapshot => {
+        totalPaquetes = 0;
+        paquetesActivos.innerHTML = "";
+
+        if (snapshot.empty) {
+          paquetesActivos.innerHTML = "<p class='info'>No tienes paquetes activos</p>";
+        }
+
+        snapshot.forEach(doc => {
+          const d = doc.data();
+
+          if (d.estado === "activo") {
+            totalPaquetes += d.monto;
+          }
+
+          const diasRestantes = d.fechaFin
+            ? Math.max(
+                0,
+                Math.ceil(
+                  (d.fechaFin.toDate() - new Date()) / (1000 * 60 * 60 * 24)
+                )
+              )
+            : 0;
+
+          const div = document.createElement("div");
+          div.className = "paquete activo";
+          div.innerHTML = `
+            $${d.monto}<br>
+            <small>${d.estado === "activo" ? `Días restantes: ${diasRestantes}` : "Vencido"}</small>
+          `;
+          paquetesActivos.appendChild(div);
+        });
+
+        calcularSaldo();
+      });
+
+    function calcularSaldo() {
+  saldoActual =
+    totalDepositos +
+    totalGanancias -
+    totalPaquetes -
+    totalRetiros;
+
+  saldo.textContent = saldoActual.toFixed(2);
+}
+function cargarHistorial() {
+  historialMovimientos.innerHTML = "";
+
+  const movimientos = [];
+
+  // DEPÓSITOS
+  db.collection("depositos")
+    .where("usuario", "==", usuarioLogueado)
+    .where("estado", "==", "aprobado")
+    .get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        movimientos.push({
+          fecha: d.fecha,
+        texto: `Depósito <span>+$${d.monto}</span>`
+        });
+      });
+
+      // GANANCIAS Y RETIROS
+      return db.collection("movimientos")
+        .where("usuario", "==", usuarioLogueado)
+        .get();
+    })
+    .then(snapshot => {
+  snapshot.forEach(doc => {
+    const d = doc.data();
+    const signo = d.monto > 0 ? "+" : "";
+
+    let textoMovimiento = "";
+
+    if (d.tipo === "ganancia") {
+      textoMovimiento = "Ganancia diaria";
+    } 
+    else if (d.tipo === "retiro") {
+      textoMovimiento = "Retiro";
+    } 
+    else if (d.tipo === "bono_referido") {
+      textoMovimiento = `Bono por referido (${d.referido})`;
+    }
+
+    movimientos.push({
+      fecha: d.fecha,
+      texto: `${textoMovimiento} 
+              <span>${signo}$${Math.abs(d.monto).toFixed(2)}</span>`
+    });
+  });
+
+      // ORDENAR POR FECHA
+      movimientos.sort((a, b) => {
+        return (a.fecha?.seconds || 0) - (b.fecha?.seconds || 0);
+      });
+
+      if (movimientos.length === 0) {
+        historialMovimientos.innerHTML = "<li class='info'>Sin movimientos aún</li>";
+        return;
+      }
+
+      movimientos.forEach(m => {
+        const li = document.createElement("li");
+        li.innerHTML = m.texto;
+        historialMovimientos.appendChild(li);
+      });
+    });
+}
+
+// Llamar una sola vez al cargar
+cargarHistorial();
+
+    /* ================= ACTIVAR PAQUETES ================= */
+    document.querySelectorAll(".paquete").forEach(p => {
+      p.addEventListener("click", () => {
+        const monto = Number(p.textContent.replace("$", ""));
+        if (saldoActual < monto) return alert("Saldo insuficiente");
+        if (!confirm(`¿Activar paquete de $${monto}?`)) return;
+
+        const ahora = new Date();
+        const fechaFin = new Date(ahora);
+        fechaFin.setDate(fechaFin.getDate() + 21);
+
+        db.collection("paquetes_activos").add({
+          usuario: usuarioLogueado,
+          monto,
+          estado: "activo",
+          fechaActivacion: firebase.firestore.Timestamp.fromDate(ahora),
+          fechaFin: firebase.firestore.Timestamp.fromDate(fechaFin),
+          ultimoPago: null,
+          gananciaDiaria: monto * 0.10
+        });
+        // ================= BONO POR REFERIDO =================
+db.collection("usuarios")
+  .where("usuario", "==", usuarioLogueado)
+  .get()
+  .then(snapshot => {
+    if (snapshot.empty) return;
+
+    const usuarioData = snapshot.docs[0].data();
+    const referidoPor = usuarioData.referidoPor;
+
+    if (!referidoPor) return;
+
+    // Verificar que el referidor tenga paquetes activos
+    db.collection("paquetes_activos")
+      .where("usuario", "==", referidoPor)
+      .where("estado", "==", "activo")
+      .get()
+      .then(paquetesSnap => {
+        if (paquetesSnap.empty) return;
+
+        const bono = monto * 0.10;
+
+        // Registrar movimiento de bono
+        db.collection("movimientos").add({
+          usuario: referidoPor,
+          tipo: "bono_referido",
+          monto: bono,
+          referido: usuarioLogueado,
+          paquete: monto,
+          fecha: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      });
+  });
+      });
+    });
+
+    /* ================= GANANCIA DIARIA AUTOMÁTICA ================= */
+    function procesarGanancias() {
+      const hoy = new Date();
+
+      db.collection("paquetes_activos")
+        .where("usuario", "==", usuarioLogueado)
+        .where("estado", "==", "activo")
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            const d = doc.data();
+
+            if (d.fechaFin.toDate() < hoy) {
+              db.collection("paquetes_activos").doc(doc.id).update({
+                estado: "vencido"
+              });
+              return;
+            }
+            const ultimoPago = d.ultimoPago ? d.ultimoPago.toDate() : null;
+            const fechaActivacion = d.fechaActivacion.toDate();
+            // 🚫 No pagar el mismo día de activación
+            if (fechaActivacion.toDateString() === hoy.toDateString()) {
+            return;
+            }
+            
+            // Normalizar fechas para evitar problemas de zona horaria
+            const hoyNormalizado = new Date(hoy);
+            hoyNormalizado.setHours(0, 0, 0, 0);
+
+            let ultimoPagoNormalizado = null;
+            if (ultimoPago) {
+            ultimoPagoNormalizado = new Date(ultimoPago);
+            ultimoPagoNormalizado.setHours(0, 0, 0, 0);
+            }
+            if (!ultimoPagoNormalizado || ultimoPagoNormalizado < hoyNormalizado) {
+                db.collection("movimientos").add({
+                usuario: usuarioLogueado,
+                monto: d.gananciaDiaria,
+                tipo: "ganancia",
+                fecha: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              db.collection("paquetes_activos").doc(doc.id).update({
+                ultimoPago: firebase.firestore.FieldValue.serverTimestamp()
+              });
+            }
+          });
+        });
+    }
+
+    procesarGanancias();
+
+    /* ================= MODAL DEPÓSITO ================= */
+    function abrirDeposito() {
+      modalDeposito.style.display = "flex";
+    }
+    function cerrarDeposito() {
+      modalDeposito.style.display = "none";
+    }
+
+    function enviarDeposito() {
+  const btn = document.getElementById("btnEnviarDeposito");
+  btn.disabled = true;
+
+  const monto = Number(depositoMonto.value);
+  const txid = depositoTxid.value.trim();
+
+  if (!monto || !txid) {
+    alert("Completa todos los datos");
+    btn.disabled = false;
+    return;
+  }
+
+  // 🔐 VALIDAR TXID ÚNICO EN TODA LA BASE DE DATOS
+  db.collection("depositos")
+    .where("txid", "==", txid)
+    .get()
+    .then(snapshot => {
+      if (!snapshot.empty) {
+        alert("Este ORDEN ID ya fue utilizado. Verifica tu comprobante.");
+        btn.disabled = false;
+        return;
+      }
+
+      // ✅ TXID NO EXISTE → GUARDAR DEPÓSITO
+      return db.collection("depositos").add({
+        usuario: usuarioLogueado,
+        monto,
+        txid,
+        estado: "pendiente",
+        fecha: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    })
+    .then(result => {
+      if (!result) return;
+
+      alert("Depósito enviado correctamente");
+      cerrarDeposito();
+      depositoMonto.value = "";
+      depositoTxid.value = "";
+      btn.disabled = false;
+    })
+    .catch(error => {
+      console.error(error);
+      alert("Error al enviar el depósito");
+      btn.disabled = false;
+    });
+}
+
+    function cerrarSesion() {
+      localStorage.removeItem("sesionActiva");
+      localStorage.removeItem("usuarioLogueado");
+      window.location.href = "index.html";
+    }
+    
+    function abrirRetiro() {
+    modalRetiro.style.display = "flex";
+    }
+
+    function cerrarRetiro() {
+    modalRetiro.style.display = "none";
+    }
+
+    
+  function abrirRetiro() {
+  modalRetiro.style.display = "flex";
+}
+
+function cerrarRetiro() {
+  modalRetiro.style.display = "none";
+}
+function enviarRetiro() {
+  const btn = document.getElementById("btnEnviarRetiro");
+  btn.disabled = true; // 🔒 bloquear doble clic
+  if (totalPaquetes <= 0) {
+    return alert("No tienes paquetes activos");
+  }
+
+  const monto = Number(retiroMonto.value);
+
+  if (!monto || monto <= 0) {
+    return alert("Ingresa un monto válido");
+  }
+
+  const minimoPermitido = totalPaquetes * 0.5;
+
+  if (monto < minimoPermitido) {
+    return alert(
+      `Monto mínimo a retirar insuficiente.\n` +
+      `Debes retirar al menos $${minimoPermitido.toFixed(2)}`
+    );
+  }
+
+  if (monto > saldoActual) {
+    return alert("Saldo insuficiente");
+  }
+
+  if (!confirm(`¿Solicitar retiro de $${monto.toFixed(2)}?`)) return;
+
+  // Guardar retiro
+  db.collection("retiros").add({
+    usuario: usuarioLogueado,
+    wallet: walletUsuario,
+    monto,
+    estado: "pendiente",
+    fecha: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  // Registrar movimiento (NEGATIVO)
+  db.collection("movimientos").add({
+    usuario: usuarioLogueado,
+    tipo: "retiro",
+    monto: -monto,
+    fecha: firebase.firestore.FieldValue.serverTimestamp()
+  });
+
+  alert("Solicitud de retiro enviada correctamente");
+  cerrarRetiro();
+  retiroMonto.value = "";
+  btn.disabled = false
+}
+
+db.collection("movimientos")
+  .where("usuario", "==", usuarioLogueado)
+  .where("tipo", "==", "bono_referido")
+  .onSnapshot(snapshot => {
+    const lista = document.getElementById("listaReferidos");
+    lista.innerHTML = "";
+
+    if (snapshot.empty) {
+      lista.innerHTML = "<li class='info'>Sin referidos aún</li>";
+      return;
+    }
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      const li = document.createElement("li");
+      li.textContent = `${d.referido} → Generó $${d.monto.toFixed(2)}`;
+      lista.appendChild(li);
+    });
+  });
+  </script>
+<script>
+document.addEventListener("contextmenu", function(e){
+e.preventDefault();
+});
+</script>
+</body>
+</html>
