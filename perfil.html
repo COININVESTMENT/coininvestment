@@ -549,7 +549,7 @@ function enviarRetiro() {
     return alert("Ingresa un monto válido");
   }
 
-  const minimoPermitido = totalPaquetes * 0.5;
+  const minimoPermitido = totalPaquetes * 0.2;
 
   if (monto < minimoPermitido) {
     return alert(
@@ -613,4 +613,5 @@ e.preventDefault();
 });
 </script>
 </body>
+
 </html>
