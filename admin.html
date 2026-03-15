@@ -80,15 +80,10 @@ const db = firebase.firestore();
 
 const tabla = document.getElementById("tablaDepositos");
 const tablaRetiros = document.getElementById("tablaRetiros");
-
-/* ========= VALIDAR SESIÓN ========= */
 const usuarioLogueado = localStorage.getItem("usuarioLogueado");
 if (!usuarioLogueado) {
   window.location.href = "index.html";
 }
-
-
-/* ========= VALIDAR ADMIN ========= */
 db.collection("usuarios")
   .where("usuario", "==", usuarioLogueado)
   .get()
@@ -97,19 +92,15 @@ db.collection("usuarios")
       window.location.href = "index.html";
       return;
     }
-
     const user = snapshot.docs[0].data();
     if (user.rol !== "admin") {
       alert("Acceso denegado");
       window.location.href = "perfil.html";
       return;
     }
-
     escucharDepositos();
     escucharRetiros();
   });
-
-/* ========= DEPÓSITOS ========= */
 function escucharDepositos() {
   db.collection("depositos")
     .where("estado", "==", "pendiente")
@@ -149,7 +140,6 @@ function escucharDepositos() {
       });
     });
 }
-/* ========= RETIROS ========= */
 function escucharRetiros() {
   db.collection("retiros")
     .where("estado", "==", "pendiente")
@@ -190,7 +180,6 @@ function escucharRetiros() {
     });
 }
 
-/* ========= APROBAR ========= */
 function aprobarDeposito(id) {
   if (!confirm("¿Aprobar este depósito?")) return;
 
@@ -201,8 +190,6 @@ function aprobarDeposito(id) {
       alert("Depósito aprobado");
     });
 }
-
-/* ========= RECHAZAR ========= */
 function rechazarDeposito(id) {
   if (!confirm("¿Rechazar este depósito?")) return;
 
