@@ -30,46 +30,33 @@
 
     </div>
   </header>
-
-  <!-- CONTENIDO PERFIL -->
   <main class="perfil-main">
-
-    <!-- SALDO -->
-    <section class="card saldo-card">
+  <section class="card saldo-card">
   <h3>Saldo Disponible</h3>
   <p class="saldo">$ <span id="saldo">0.00</span></p>
-
   <div class="acciones-saldo">
     <button class="btn-accion" onclick="abrirDeposito()">Agregar saldo</button>
     <button class="btn-accion retirar" onclick="abrirRetiro()">Retirar</button>
   </div>
 </section>
-
-    <!-- HISTORIAL -->
     <section class="card historial-card">
       <h3>Historial de Movimientos</h3>
       <ul class="historial" id="historialMovimientos">
         <li class="info">Sin movimientos aún</li>
       </ul>
     </section>
-
-    <!-- PAQUETES ACTIVOS -->
     <section class="card paquetes-activos">
       <h3>Paquetes Activados</h3>
       <div id="paquetesActivos">
         <p class="info">No tienes paquetes activos</p>
       </div>
     </section>
-    <!-- REFERIDOS -->
-<section class="card referidos-card">
+   <section class="card referidos-card">
   <h3>Mis Referidos</h3>
-
   <ul id="listaReferidos" class="lista-referidos">
     <li class="info">No tienes referidos aún</li>
   </ul>
 </section>
-
-    <!-- PAQUETES DISPONIBLES -->
     <section class="card paquetes-disponibles">
       <h3>Paquetes de Inversion</h3>
       <div class="paquetes-grid">
@@ -86,16 +73,11 @@
         <div class="paquete">$1000</div>
       </div>
     </section>
-<!-- BINANCE ID -->
 <div class="card imagen-promocional">
   <img src="img/ID-BINANCE.jpg" alt="Promoción">
 </div>
-
-
   </main>
-
-  <!-- MODAL DEPÓSITO -->
-  <div class="modal modal-perfil" id="modalDeposito">
+    <div class="modal modal-perfil" id="modalDeposito">
     <div class="modal-contenido">
       <h3>Reportar Depósito</h3>
       <input type="number" id="depositoMonto" placeholder="Monto enviado">
@@ -112,23 +94,18 @@
       </div>
     </div>
   </div>
-
-<!-- MODAL RETIRO -->
 <div class="modal modal-perfil" id="modalRetiro">
   <div class="modal-contenido">
     <h3>Solicitar Retiro</h3>
-
     <input 
       type="number" 
       id="retiroMonto" 
       placeholder="Ingresa el monto a retirar"
       min="1"
     >
-
     <p class="info">
       El retiro será enviado a tu wallet registrada tras verificación.
     </p>
-
     <div class="modal-botones">
       <button id="btnEnviarRetiro" onclick="enviarRetiro()">Solicitar</button>
       <button class="cancelar" onclick="cerrarRetiro()">Cancelar</button>
@@ -138,7 +115,6 @@
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCtToXsyI1gbBn7JytIq1vy8vBR1UgReEQ",
@@ -163,8 +139,6 @@
     let totalRetiros = 0;
     let walletUsuario = 0;
     const MONTO_MINIMO_RETIRO = 10;
-
-    /* ================= DATOS PERFIL ================= */
     db.collection("usuarios")
       .where("usuario", "==", usuarioLogueado)
       .get()
@@ -179,8 +153,6 @@
           p_usuario.textContent = d.usuario;
         });
       });
-
-    /* ================= DEPÓSITOS APROBADOS ================= */
     db.collection("depositos")
       .where("usuario", "==", usuarioLogueado)
       .where("estado", "==", "aprobado")
@@ -204,8 +176,7 @@
 
         calcularSaldo();
       });
-      /* ================= GANANCIAS ================= */
-db.collection("movimientos")
+    db.collection("movimientos")
   .where("usuario", "==", usuarioLogueado)
   .where("tipo", "in", ["ganancia", "bono_referido"])
   .onSnapshot(snapshot => {
@@ -218,8 +189,7 @@ db.collection("movimientos")
 
     calcularSaldo();
   });
-  /* ================= RETIROS ================= */
-db.collection("retiros")
+ db.collection("retiros")
   .where("usuario", "==", usuarioLogueado)
   .where("estado", "in", ["pendiente", "aprobado"])
   .onSnapshot(snapshot => {
@@ -232,8 +202,7 @@ db.collection("retiros")
 
     calcularSaldo();
   });
-    /* ================= PAQUETES ACTIVOS ================= */
-    db.collection("paquetes_activos")
+        db.collection("paquetes_activos")
       .where("usuario", "==", usuarioLogueado)
       .onSnapshot(snapshot => {
         totalPaquetes = 0;
@@ -299,7 +268,6 @@ function cargarHistorial() {
         });
       });
 
-      // GANANCIAS Y RETIROS
       return db.collection("movimientos")
         .where("usuario", "==", usuarioLogueado)
         .get();
@@ -346,7 +314,6 @@ function cargarHistorial() {
     });
 }
 
-// Llamar una sola vez al cargar
 cargarHistorial();
 
     /* ================= ACTIVAR PAQUETES ================= */
@@ -369,8 +336,7 @@ cargarHistorial();
           ultimoPago: null,
           gananciaDiaria: monto * 0.10
         });
-        // ================= BONO POR REFERIDO =================
-db.collection("usuarios")
+        db.collection("usuarios")
   .where("usuario", "==", usuarioLogueado)
   .get()
   .then(snapshot => {
@@ -390,8 +356,6 @@ db.collection("usuarios")
         if (paquetesSnap.empty) return;
 
         const bono = monto * 0.10;
-
-        // Registrar movimiento de bono
         db.collection("movimientos").add({
           usuario: referidoPor,
           tipo: "bono_referido",
@@ -404,11 +368,8 @@ db.collection("usuarios")
   });
       });
     });
-
-    /* ================= GANANCIA DIARIA AUTOMÁTICA ================= */
     function procesarGanancias() {
       const hoy = new Date();
-
       db.collection("paquetes_activos")
         .where("usuario", "==", usuarioLogueado)
         .where("estado", "==", "activo")
@@ -456,8 +417,6 @@ db.collection("usuarios")
     }
 
     procesarGanancias();
-
-    /* ================= MODAL DEPÓSITO ================= */
     function abrirDeposito() {
       modalDeposito.style.display = "flex";
     }
@@ -477,8 +436,6 @@ db.collection("usuarios")
     btn.disabled = false;
     return;
   }
-
-  // 🔐 VALIDAR TXID ÚNICO EN TODA LA BASE DE DATOS
   db.collection("depositos")
     .where("txid", "==", txid)
     .get()
@@ -488,8 +445,6 @@ db.collection("usuarios")
         btn.disabled = false;
         return;
       }
-
-      // ✅ TXID NO EXISTE → GUARDAR DEPÓSITO
       return db.collection("depositos").add({
         usuario: usuarioLogueado,
         monto,
@@ -564,8 +519,7 @@ function enviarRetiro() {
 
   if (!confirm(`¿Solicitar retiro de $${monto.toFixed(2)}?`)) return;
 
-  // Guardar retiro
-  db.collection("retiros").add({
+    db.collection("retiros").add({
     usuario: usuarioLogueado,
     wallet: walletUsuario,
     monto,
@@ -573,8 +527,7 @@ function enviarRetiro() {
     fecha: firebase.firestore.FieldValue.serverTimestamp()
   });
 
-  // Registrar movimiento (NEGATIVO)
-  db.collection("movimientos").add({
+   db.collection("movimientos").add({
     usuario: usuarioLogueado,
     tipo: "retiro",
     monto: -monto,
