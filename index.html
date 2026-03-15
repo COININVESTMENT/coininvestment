@@ -8,10 +8,8 @@
 </head>
 <body>
 
-  <!-- BOTÓN MENÚ -->
   <div class="menu-container">
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
-
     <div class="menu-flotante" id="menu">
       <h3>INFORMACION</h3>
       <ul>
@@ -48,7 +46,6 @@
     menu.classList.toggle("mostrar");
   }
 
-  // Cerrar menú al hacer clic fuera
   document.addEventListener("click", function (event) {
     if (
       !menu.contains(event.target) &&
@@ -102,12 +99,6 @@ function cerrarTutoriales(){
   document.getElementById("modalTutoriales").style.display="none";
 }
 </script>
-
-
-
-
-
-<!-- MODAL PAQUETES DE INVERSIÓN -->
 <div class="modal" id="modalPaquetes">
   <div class="modal-contenido modal-paquetes">
 
@@ -129,8 +120,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-      <!-- PAQUETE 50 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$50 <span>USD</span></div>
@@ -141,8 +130,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-      <!-- PAQUETE 100 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$100 <span>USD</span></div>
@@ -153,8 +140,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-      <!-- PAQUETE 250 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$250 <span>USD</span></div>
@@ -165,8 +150,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-      <!-- PAQUETE 300 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$300 <span>USD</span></div>
@@ -177,8 +160,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-      <!-- PAQUETE 400 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$400 <span>USD</span></div>
@@ -189,8 +170,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-      <!-- PAQUETE 500 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$500 <span>USD</span></div>
@@ -201,8 +180,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-       <!-- PAQUETE 700 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$700 <span>USD</span></div>
@@ -213,8 +190,6 @@ function cerrarTutoriales(){
         </ul>
         <button class="btn-obtener" onclick="obtenerPaquete()">OBTENER</button>
       </div>
-
-       <!-- PAQUETE 1000 -->
       <div class="paquete-card">
         <h3>COIN INVESTMENT</h3>
         <div class="precio">$1000 <span>USD</span></div>
@@ -234,12 +209,9 @@ function cerrarTutoriales(){
 
   </div>
 </div>
-
-<!-- ================= SCRIPT PAQUETES ================= -->
 <script>
 function obtenerPaquete() {
   const usuario = localStorage.getItem("usuarioLogueado");
-
   if (!usuario) {
     window.location.href = "index.html";
     return;
@@ -248,17 +220,10 @@ function obtenerPaquete() {
   alert("Próximo paso: activación del paquete");
 }
 </script>
-
-
-
-
-
-
-
 <section class="registro" id="registro">
-  <h2>Comienza tu registro</h2>
-  <form class="formulario" id="formRegistro">
-  <input type="text" id="nombres" placeholder="Nombres" required>
+<h2>Comienza tu registro</h2>
+<form class="formulario" id="formRegistro">
+<input type="text" id="nombres" placeholder="Nombres" required>
 <input type="text" id="apellidos" placeholder="Apellidos" required>
 <input type="tel" id="telefono" placeholder="Teléfono" required>
 <input type="email" id="correo" placeholder="Correo" required>
@@ -271,9 +236,6 @@ function obtenerPaquete() {
   <input type="date" id="fechaNacimiento" required>
   <p id="mensajeEdad"></p>
   <input type="text" id="referidoPor" placeholder="Usuario referidor (opcional)">
-
-
-  <!-- BOTÓN GUARDAR -->
   <button type="submit" id="btnGuardar" disabled>
     Guardar
   </button>
@@ -319,12 +281,8 @@ function obtenerPaquete() {
 
  formRegistro.addEventListener("submit", function (e) {
   e.preventDefault();
-
-  // Bloquear inmediatamente para evitar doble clic
   btnGuardar.disabled = true;
-
   const usuario = usuarioInput.value.trim();
-
   db.collection("usuarios")
     .where("usuario", "==", usuario)
     .get()
@@ -334,9 +292,7 @@ function obtenerPaquete() {
         btnGuardar.disabled = false;
         return;
       }
-
-      // GUARDAR SI NO EXISTE
-     return db.collection("usuarios").add({
+      return db.collection("usuarios").add({
       nombres: document.getElementById("nombres").value,
       apellidos: document.getElementById("apellidos").value,
       telefono: document.getElementById("telefono").value,
@@ -383,7 +339,6 @@ function obtenerPaquete() {
   password.addEventListener("input", validarPasswords);
   repetirPassword.addEventListener("input", validarPasswords);
 </script>
-<!-- MODAL MARCO INSTITUCIONAL -->
 <div class="modal" id="modalQuienesSomos">
   <div class="modal-contenido">
     <div class="modal-header">
@@ -438,7 +393,6 @@ function obtenerPaquete() {
     </div>
   </div>
 </div>
-<!-- MODAL CÓDIGO DE ÉTICA -->
 <div class="modal" id="modalCodigoEtica">
   <div class="modal-contenido">
     <h3>COIN INVESTMENT</h3>
@@ -493,7 +447,6 @@ function obtenerPaquete() {
     </div>
   </div>
 </div>
-<!-- MODAL TUTORIALES -->
 <div id="modalTutoriales" class="modal-tutoriales">
 
   <div class="modal-contenido-tutorial">
